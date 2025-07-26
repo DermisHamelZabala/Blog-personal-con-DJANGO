@@ -84,12 +84,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 import dj_database_url
 
 # Búsqueda de la variable DATABASE_URL en el entorno
-database_url = config('DATABASE_URL', default=None)
+DATABASE_URL = config('DATABASE_URL', default=None)
 
-if database_url:
+if DATABASE_URL:
     # Si se encuentra DATABASE_URL (estamos en producción en Render), la usamos
     DATABASES = {
-        'default': dj_database_url.parse(database_url)
+        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
     }
 else:
     # Si no (estamos en local), usamos las variables DB_* de nuestro .env
