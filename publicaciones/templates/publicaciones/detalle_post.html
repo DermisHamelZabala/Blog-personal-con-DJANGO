@@ -1,0 +1,17 @@
+{% extends 'publicaciones/base.html' %}
+
+{% block titulo %}Detalle | {{ publicacion.titulo }}{% endblock %}
+
+{% block contenido %}
+    <h1 class="titulo-principal">Detalle de la publicacion</h1>
+    <article class="tarjeta-post detalle">
+       <div class="titulo-etiqueta">
+        <h2>{{ publicacion.titulo }}</h2>
+        <p>{{ publicacion.categoria }}</p>
+    </div>
+        <small class="meta-info">Autor: {{publicacion.autor}}</small><br>
+        <small class="meta-info">Creacion: {{ publicacion.fecha_publicacion }}</small>
+        <p class="contenido-completo">{{ publicacion.contenido }}</p>
+        <a href="{% url 'lista_de_post' %}">Volver a la lista</a> 
+    </article>    
+{% endblock %}

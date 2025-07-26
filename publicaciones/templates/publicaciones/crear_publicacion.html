@@ -1,0 +1,12 @@
+{% extends 'publicaciones/base.html' %}
+
+{% block contenido %}
+    <h1 class="titulo-principal">Creacion de publicacion</h1>
+    <div class="contenedor-formulario">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Crear</button>
+        </form>
+    </div>
+{% endblock %}

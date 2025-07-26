@@ -1,0 +1,30 @@
+{% extends 'publicaciones/base.html' %}
+
+{% block titulo %}
+Mis Publicaciones
+{% endblock %}
+
+{% block contenido %}
+    <h1 class="titulo-principal">Editar Publicaciones</h1>
+        <div class="encabezados">
+            <p class="columna titulo">Título</p>
+            <p class="columna fecha">Fecha</p>
+            <p class="columna estado">Estado</p>
+            <p class="columna editar">Editar</p>
+            <p class="columna eliminar">Eliminar</p>
+        </div>
+
+        {% for publicacion in lista_de_estado_post %}
+            <div class="fila-post-gestion">
+                <h2 class="columna titulo">{{ publicacion.titulo|truncatechars:13 }}</h2>
+                <small class="columna fecha">{{ publicacion.fecha_publicacion|date:"d/m/y" }}</small>
+                <p class="columna estado">{{ publicacion.get_estado_display }}</p>
+                <div class="columna editar">
+                    <a href="{% url 'actualizar_publicacion' publicacion.pk %}" class="acciones-post">Editar</a>
+                </div>
+                <div class="columna eliminar">
+                    <a href="{% url 'eliminar_publicacion' publicacion.pk %}" class="acciones-post">Eliminar</a>
+                </div>
+            </div>
+        {% endfor %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'publicaciones/css/estilos.css' %}">
+</head>
+<body>
+    <div class="window-notice" id="window-notice">
+        <div class="content">
+            <form method="post">{% csrf_token %}
+                <p>¿Seguro que deseas eliminar "{{ publicacion.titulo }}"?</p>
+                {{ form }}
+                <input type="submit" value="Confirmar">
+                <input type="button" value="Cancelar" onclick="window.history.back()">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

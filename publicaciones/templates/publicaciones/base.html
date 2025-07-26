@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'publicaciones/css/estilos.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,700;1,700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="barra-navegacion-superior">
+            <a href="{% url 'lista_de_post' %}" class="logo-link">
+                <img src="{% static 'publicaciones/img/logo.png' %}" alt="logo">
+            </a>
+
+            <div class="barra-responsiva">
+                <div class="logo-btn-hamburguesa">
+                    <a href="{% url 'lista_de_post' %}" class="logo-link-responsivo">
+                        <img src="{% static 'publicaciones/img/logo.png' %}" alt="logo" class="logo-responsivo">
+                    </a>
+                    <button id="btn-hamburguesa" class="boton-hamburguesa"><img src="{% static 'publicaciones/img/menu.png' %}" alt=""></button>
+                </div>
+
+                <div class="contenedor-busqueda">
+                    <form class="formulario-busqueda busqueda-responsivo" method="GET">
+                        <input type="text" placeholder="Buscar en el blog..." name="buscar">
+                    </form>
+                </div>
+            </div>
+
+            <div class="nav-derecha">
+                {% if user.is_authenticated %}
+                    <span>Hola, {{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %} <!-- metodo de seguridad de django -->
+                        <!-- {{ form.as_p }} renderiza los campos usuario, contraseña -->
+                        <button type="submit" class="btn tercer-btn">Cerrar Sesion</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn primer-btn">Iniciar sesion</a>
+                    <a href="{% url 'registro' %}" class="btn segundo-btn">Registrarse</a>
+                {% endif %}                
+                <form class="formulario-busqueda" method="GET">
+                    <input type="text" placeholder="Buscar en el blog..." name="buscar">
+                </form>    
+            </div>
+        </nav>
+    </header>
+    <div id="menu-overlay" class="menu-overlay-contenedor">
+        <div class="menu-overlay-header">
+            <!-- Puedes poner tu logo aquí de nuevo si quieres -->
+            <a href="{% url 'lista_de_post' %}" class="logo-link">
+                <img src="{% static 'publicaciones/img/logo.png' %}" alt="logo">
+            </a>
+            <button id="boton-cerrar-menu" class="boton-cerrar"><img src="{% static 'publicaciones/img/cerrar.png' %}" alt="cerrar"></button>
+        </div>
+        <ul class="menu-overlay-enlaces">
+            {% if user.is_authenticated %}
+            <li>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %} <!-- metodo de seguridad de django -->
+                    <!-- {{ form.as_p }} renderiza los campos usuario, contraseña -->
+                    <button type="submit" class="cerrar-sesion">Cerrar Sesion</button>
+                </form>
+            </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Iniciar sesion</a></li>
+                <li><a href="{% url 'registro' %}">Registrarse</a></li>                
+            {% endif %}                
+            <li class="exp-categoria" id="a-categoria">Categorias 
+                <img src="{% static 'publicaciones/img/flecha-abajo.png' %}" alt="flecha abajo" class="abrir">
+            </li>
+            <div id="opciones-categorias" class="categorias">
+                {% for categoria in todas_las_categorias %}
+                    <li><a href="{% url 'posts_por_categoria' categoria.pk %}">{{ categoria }}</a></li>
+                    {% empty %}
+                        <li>No hay categorias disponibles.</li>
+                {% endfor %}
+            </div>            
+            <li class="exp-publicacion" id="a-publicaciones">Publicar 
+                <img src="{% static 'publicaciones/img/flecha-abajo.png' %}" alt="flecha abajo" class="abrir">
+            </li>
+            <div id="opciones-publicaciones" class="publicaciones">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'crear_publicacion' %}">Crear publicacion</a></li>
+                    <li><a href="{% url 'mis_publicaciones' %}">Mis Publicaciones</a></li>
+                {% else %}
+                    <li>Debes iniciar sesion para publicar</li>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <aside class="barra-lateral">
+        <h2>Opciones</h2>
+        <h3 class="categoria-lateral" id="id-categoria-lateral">Categorias
+            <img src="{% static 'publicaciones/img/flecha-abajo-azul.png' %}" alt="flecha abajo azul" class="abrir">
+        </h3>
+        <ul class="lista-barra-lateral" id="elementos-categoria">
+            {% for categoria in todas_las_categorias %}
+                <li><a href="{% url 'posts_por_categoria' categoria.pk %}">{{ categoria }}</a></li>
+                {% empty %}
+                    <li>No hay categorias disponibles.</li>
+            {% endfor %}
+        </ul>
+        <h3 class="publicacion-lateral" id="id-publicacion-lateral">Publicar
+            <img src="{% static 'publicaciones/img/flecha-abajo-azul.png' %}" alt="flecha abajo azul" class="abrir">
+        </h3>
+        <ul class="lista-barra-lateral" id="elementos-publicacion">
+            {% if user.is_authenticated %} 
+                <li><a href="{% url 'crear_publicacion' %}">Crear publicacion</a></li>
+                <li><a href="{% url 'mis_publicaciones' %}">Mis Publicaciones</a></li>
+            {% else %}
+                <li>Debes iniciar sesion para publicar</li>
+            {% endif %}
+        </ul>
+    </aside>
+
+    <div class="contenedor-principal-flex">
+        <main class="contenido-principal">
+            <!-- mensajes -->
+            {% if messages %}
+                <div class="contenedor-mensajes">
+                    {% for message in messages %}
+                        <div class="mensaje {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- contenido para las demas paginas -->
+            {% block contenido %}{% endblock %}
+            
+        </main>   
+
+        <footer class="pie-de-pagina">
+            <p>&copy; 2025 Blog Personal.</p>
+        </footer>
+    </div>
+    <script src="{% static 'publicaciones/js/main.js' %}"></script>
+</body>
+</html>

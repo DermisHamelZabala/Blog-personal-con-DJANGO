@@ -1,0 +1,36 @@
+<!-- diciendo que se extiende de base -->
+{% extends 'publicaciones/base.html' %}
+
+<!-- titulo de la pagina -->
+{% block titulo %}
+    {% if not categoria_actual %}
+        Lista de Publicaciones
+    {% else %}
+        Categoria - {{ categoria_actual }}
+    {% endif %}
+{% endblock %}
+
+{% block contenido %}
+    {% if not categoria_actual %}
+        <h1 class="titulo-principal">Ultimas Publicaciones</h1>
+    {% else %}
+        <h1 class="titulo-principal">Todas las publicaciones de: {{ categoria_actual }}</h1>
+    {% endif %}
+    {% for publicacion in lista_de_post %}    
+        <article class="tarjeta-post">
+            <div class="titulo-etiqueta">
+                <h2><a href="{% url 'detalle_post' publicacion.pk %}">{{ publicacion.titulo }}</a></h2>
+                <p>{{ publicacion.categoria }}</p>
+            </div>
+            <p>{{ publicacion.contenido|truncatewords:40 }}</p>
+            <small>Publicado por: {{ publicacion.autor.username }} el {{ publicacion.fecha_publicacion|date:"d \d\e F \d\e Y \a \l\a\s  g:i a" }}</small><br>
+            <a href="{% url 'detalle_post' publicacion.pk %}" class="post-detallado">
+                Leer más...
+            </a>
+        </article>
+    {% empty %}
+        <article class="tarjeta-post">
+            <p>Aún no hay publicaciones en esta sección.</p>
+        </article>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'publicaciones/base.html' %}
+
+{% block titulo %}Inicio de Sesion{% endblock %}
+
+{% block contenido %}
+    <h1 class="titulo-principal">Inicio de sesión</h1>
+    <div class="contenedor-formulario">
+        <form method="POST">
+            {% csrf_token %} <!-- metodo de seguridad de django -->
+            {{ form.as_p }} <!-- renderiza los campos usuario, contrase;a -->
+            <button type="submit">Iniciar Sesion</button>
+        </form>
+    </div>
+{% endblock %}

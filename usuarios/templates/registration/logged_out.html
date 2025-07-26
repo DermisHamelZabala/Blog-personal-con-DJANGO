@@ -1,0 +1,8 @@
+{% extends 'publicaciones/base.html' %}
+
+{% block titulo %}Cerrar sesion{% endblock %}
+
+{% block contenido %}
+    <p>Has cerrado sesion correctamente.</p>
+    <a href="{% url 'lista_de_post' %}">Volver al inicio</a>
+{% endblock %}

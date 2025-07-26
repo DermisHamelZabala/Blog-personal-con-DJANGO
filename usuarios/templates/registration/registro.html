@@ -1,0 +1,14 @@
+{% extends 'publicaciones/base.html' %}
+
+{% block titulo %}Registro{% endblock %}
+
+{% block contenido %}
+    <h1 class="titulo-principal">Registrarse</h1>
+    <div class="contenedor-formulario registro">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Registrate</button>
+        </form>
+    </div>
+{% endblock %}
