@@ -26,7 +26,11 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default = False, cast=bool)
 
-ALLOWED_HOSTS = []
+# Leerá una variable ALLOWED_HOSTS (que en Render será algo 
+# como tunombre-de-proyecto.onrender.com), y si no la encuentra, 
+# usará 127.0.0.1 por defecto para que siga funcionando en local. 
+# El .split(',') nos permite poner varios dominios separados por comas.
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1').split(',')
 
 # Application definition
 
@@ -124,6 +128,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# STATIC_ROOT: Le dice a Django dónde debe recopilar todos los archivos estáticos de todas 
+# tus apps en una sola carpeta cuando lo despliegues. 
+# El comando collectstatic usará esta ruta.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+#STATICFILES_STORAGE: Le dice a Django que use WhiteNoise para gestionar 
+# los archivos estáticos, lo que incluye comprimirlos y 
+# cachearlos de forma inteligente.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
