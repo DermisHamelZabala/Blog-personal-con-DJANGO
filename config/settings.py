@@ -81,16 +81,29 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'), # nombre de la base de datos
-        'USER': config('DB_USER'), # usuario en postgresql
-        'PASSWORD': config('DB_PASSWORD'), # contrase;a del usuario
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
+import dj_database_url
+
+# Búsqueda de la variable DATABASE_URL en el entorno
+database_url = config('DATABASE_URL', default=None)
+
+if database_url:
+    # Si se encuentra DATABASE_URL (estamos en producción en Render), la usamos
+    DATABASES = {
+        'default': dj_database_url.parse(database_url)
     }
-}
+else:
+    # Si no (estamos en local), usamos las variables DB_* de nuestro .env
+    print("DATABASE_URL no encontrada, usando configuración local de la base de datos.")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME'), # nombre de la base de datos
+            'USER': config('DB_USER'), # usuario en postgresql
+            'PASSWORD': config('DB_PASSWORD'), # contrase;a del usuario
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT'),
+        }
+    }
 
 
 # Password validation
