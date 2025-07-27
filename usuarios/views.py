@@ -16,17 +16,12 @@ def vista_registro(request):
             # si es valido lo guardamos
             nuevo_usuario = form.save()
             # para mostrar un mensaje de exito
-            messages.success(request, '¡Te has registrado exitosamente!')
+            messages.success(request, '¡Registro exitoso!')
             
             login(request, user=nuevo_usuario)
             
             # para redirigir al usuario a la pagina de inicio
             return redirect('lista_de_post')
-        
-        # si no es valido muestra
-        else:
-            messages.error(request, 'Registro incorrecto, porfavor vuelva a intentarlo.')
-
     else:
         form = FormularioRegistroUsuario()
         

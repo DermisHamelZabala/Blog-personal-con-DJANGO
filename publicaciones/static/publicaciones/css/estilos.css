@@ -151,6 +151,8 @@ a:hover{
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* para quitar el desbordamiento de palabras muy muy largas */
+    overflow-wrap: break-word; 
 }
 
 .tarjeta-post:hover{
@@ -606,6 +608,34 @@ a:hover{
     display: none;
 }
 
+.errorlist{
+    width: 100%;
+}
+
+.errorlist li{
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+    list-style: none;
+    background-color: #E35F5F;
+    padding: 10px;
+    border: 2px solid var(--color-bordes);
+    border-radius: 8px;
+    color: var(--color-superficie);
+    font-weight: bold;
+}
+
+.contenedor-mensajes{
+    background-color: #C9E8DE;
+    color: #013B20;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #013B20;
+}
+
 /* TODO */
 
 /* =============== Estilo responsivo =============== */
@@ -686,6 +716,12 @@ a:hover{
     .contenido-principal{
         width: 98%;
     }
+
+    .errorlist li{
+        font-size: 13px;
+        margin: 4px auto;
+    }
+    
 }
 
 @media (max-width: 400px){
@@ -694,7 +730,8 @@ a:hover{
     }
 
     .contenedor-formulario ul,
-    .contenedor-formulario span{
+    .contenedor-formulario span
+    {
         max-width: 250px;
     }
 
@@ -702,6 +739,10 @@ a:hover{
         width: 250px;
     }
 
+    .errorlist{
+        max-width: 250px;
+        margin: 0 auto;
+    }
 }
 
 
